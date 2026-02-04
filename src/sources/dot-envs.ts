@@ -1,7 +1,6 @@
-import { join } from "@denoboot/x/std/path.ts";
 import { fromDotEnv } from "./dot-env.ts";
 
-export function fromDotEnvs(mode: string, envDir: string | false, prefixes: string | string[] = "DENOBOOT_") {
+export function unstable_fromDotEnvs(mode: string, envDir: string | false, prefixes: string | string[] = "DENOBOOT_") {
   let cache: Record<string, string> | null = null;
 
   return () => {
@@ -26,7 +25,7 @@ export function fromDotEnvs(mode: string, envDir: string | false, prefixes: stri
   };
 }
 
-export function getEnvFilesForMode(
+function getEnvFilesForMode(
   mode: string,
   envDir: string | false,
 ): string[] {
@@ -41,7 +40,8 @@ export function getEnvFilesForMode(
 
   return [];
 }
-export function resolveEnvPrefix({
+
+function _resolveEnvPrefix({
   envPrefix = "DENOBOOT_",
 }: { envPrefix?: string | string[] }): string[] {
   envPrefix = typeof envPrefix === "string" ? envPrefix.split(",") : envPrefix;
@@ -57,4 +57,20 @@ export function resolveEnvPrefix({
     );
   }
   return envPrefix;
+}
+
+// TODO: Move to utils
+function join(base: string, ...paths: string[]): string {
+  function cleanString(str: string): string {
+    // Remove leading slashes
+    str = str.replace(/^\/+/, "");
+    // Remove trailing slashes
+    str = str.replace(/\/+$/, "");
+    // Replace multiple slashes with single slash
+    str = str.replace(/\/+/g, "/");
+    return str;
+  }
+  const cleanedBase = cleanString(base);
+  const cleanedPaths = paths.map(cleanString);
+  return [cleanedBase, ...cleanedPaths].join("/");
 }

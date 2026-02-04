@@ -1,12 +1,12 @@
 {
   "name": "@denoboot/decouple",
   "version": "0.0.0",
+  "license": "MIT",
   "description": "Configuration decoupling for DenoBoot",
-  "exports": {
-    ".": "./mod.ts",
-    "./decouple": "./decouple.ts",
-    "./layer-strict": "./layer-strict.ts",
-    "./layer": "./layer.ts",
-    "./sources/": "./sources/"
+  "exports": "./src/mod.ts",
+  "tasks": {
+    "lint": "deno lint",
+    "check": "deno check src/mod.ts",
+    "test": "deno test"
   }
 }

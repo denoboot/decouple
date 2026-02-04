@@ -1,6 +1,6 @@
 import { DecoupleError } from "../errors.ts";
 
-export function fromJsonFile(path: string | undefined) {
+export function unstable_fromJsonFile(path: string | undefined) {
   let cache: Record<string, string> | null = null;
 
   return () => {
@@ -33,8 +33,8 @@ export function fromJsonFile(path: string | undefined) {
   };
 }
 
-export function fromJsonFiles(paths: string[]) {
-  return paths.map((path) => fromJsonFile(path)).reduce((a, b) => {
+export function unstable_fromJsonFiles(paths: string[]) {
+  return paths.map((path) => unstable_fromJsonFile(path)).reduce((a, b) => {
     return () => {
       return { ...a(), ...b() };
     };
